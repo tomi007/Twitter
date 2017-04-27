@@ -29,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <html>
 <body>
+
 <form method="POST">
     <?php echo join('<br>', $errors); ?>
     <br>

@@ -32,7 +32,7 @@ class User
 
     static public function showUserByEmail(PDO $connection, $email)
     {
-        $stmt = $connection->prepare('SELECT * FROM Users WHERE email=:email');
+        $stmt = $connection->prepare('SELECT * FROM user WHERE email=:email');
         $result = $stmt->execute(['email'=> $email]);
 
         if ($result === true && $stmt->rowCount() > 0) {
