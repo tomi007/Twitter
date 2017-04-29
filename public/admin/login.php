@@ -44,23 +44,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
   <div class="container">
-
-      <form class="form-signin" method="POST">
-        <?php echo join('<br>', $errors); ?>
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input name="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" type="email">
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input name="password" id="inputPassword" class="form-control" placeholder="Password" required="" type="password">
-        <div class="checkbox">
-          <label>
-            <input value="remember-me" type="checkbox"> Remember me
-          </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
-
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <form class="form-signin" method="POST">
+          <?php echo join('<br>', $errors);
+            if(isset($_SESSION['register'])){
+                echo $_SESSION['register'];
+                unset($_SESSION['register']);
+            }
+          ?>
+          <h2 class="form-signin-heading">Please sign in</h2>
+          <label for="inputEmail" class="sr-only">Email address</label>
+          <input name="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="" type="email">
+          <label for="inputPassword" class="sr-only">Password</label>
+          <input name="password" id="inputPassword" class="form-control" placeholder="Password" required="" type="password">
+          <div class="checkbox">
+            <label>
+              <input value="remember-me" type="checkbox"> Remember me
+            </label>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+          <p>Nie masz konta? <a href="register.php">Zarejestruj się</a></p>
+        </form>
+      </div>
     </div>
+  </div>
 
 </body>
 </html>

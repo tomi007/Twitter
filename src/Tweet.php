@@ -56,6 +56,53 @@ class Tweet
       return null;
     }
 
+    static public function loadAllTweets(PDO $connection)
+    {
+      // nasze zapytanie sql
+
+      $result = $connection->query("SELECT * FROM Tweets ORDER BY `creationDate` DESC");
+      $ret = []; // pusta tablica w której przechowamy wyniki zapytania
+
+      if ($result->rowCount() > 0) {
+          foreach ($result as $row) {
+              //$row = $result->fetch(PDO::FETCH_ASSOC);
+              $loadedTweet = new Tweet();
+              $loadedTweet->id = $row['id'];
+              $loadedTweet->userId = $row['userId'];
+              $loadedTweet->text = $row['text'];
+              $loadedTweet->creationDate = $row['creationDate'];
+              // przypisujemy nasz obiekt do tablicy
+              $ret[] = $loadedTweet;
+          }
+          return $ret;
+      }
+      return null;
+    }
+
+    public function save(PDO $pdo)
+    {
+        if ($this->id == -1) {
+            // przygotowanie zapytania
+            $sql = "INSERT INTO Tweet(userId, text) VALUES (:userId, :text)";
+
+            $prepare = $pdo->prepare($sql);
+            // Wysłanie zapytania do bazy z kluczami i wartościami do podmienienia
+            $result = $prepare->execute(
+                [
+                    'userId'     => $this->userId,
+                    'text'        => $this->text,
+                ]
+            );
+
+            // Pobranie ostatniego ID dodanego rekordu
+            $this->id = $pdo->lastInsertId();
+            return (bool)$result;
+        } else {
+
+        }
+
+    }
+
     public function getId()
     {
         return $this->id;
