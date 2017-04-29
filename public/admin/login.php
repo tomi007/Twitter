@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // sprawdzamy czy hasło się zgadza
         if ($user->getHashPassword() == $password) {
             $_SESSION['logged'] = true;
+            $_SESSION['userId'] = $user->getId();
             echo "ZALOGOWANY";
             header('Location: index.php');
         } else {

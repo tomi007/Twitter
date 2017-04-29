@@ -83,7 +83,7 @@ class Tweet
     {
         if ($this->id == -1) {
             // przygotowanie zapytania
-            $sql = "INSERT INTO Tweet(userId, text) VALUES (:userId, :text)";
+            $sql = "INSERT INTO Tweets(userId, text) VALUES (:userId, :text)";
 
             $prepare = $pdo->prepare($sql);
             // Wysłanie zapytania do bazy z kluczami i wartościami do podmienienia
