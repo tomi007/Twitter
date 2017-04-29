@@ -1,4 +1,4 @@
 <?php
 session_start();
-include_once '../connection.php';
-include_once '../autoload.php';
+include_once __DIR__ . '/connection.php';
+include_once __DIR__ . '/autoload.php';

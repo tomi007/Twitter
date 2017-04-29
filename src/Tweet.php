@@ -34,12 +34,12 @@ class Tweet
 
     static public function loadAllTweetsByUserId(PDO $connection, $userId)
     {
+      // nasze zapytanie sql
       $stmt = $connection->prepare('SELECT * FROM Tweets WHERE userId=:userId ORDER BY `creationDate` DESC');
       $result = $stmt->execute(['userId'=> $userId]);
 
-      $ret = []; // pusta tablica
+      $ret = []; // pusta tablica w której przechowamy wyniki zapytania
 
-      //print_r($stmt->rowCount());
       if ($result === true && $stmt->rowCount() > 0) {
 
           foreach ($stmt as $row) {
@@ -48,18 +48,10 @@ class Tweet
               $loadedTweet->userId = $row['userId'];
               $loadedTweet->text = $row['text'];
               $loadedTweet->creationDate = $row['creationDate'];
+              // przypisujemy nasz obiekt do tablicy
               $ret[] = $loadedTweet;
-              //echo "<b>[" . $row['creationDate'] . "]</b> " . $row['text'] . '<br>';
           }
           return $ret;
-          //
-          // $row = $stmt->fetch(PDO::FETCH_ASSOC);
-          // $loadedTweet = new Tweet();
-          // $loadedTweet->id = $row['id'];
-          // $loadedTweet->userId = $row['userId'];
-          // $loadedTweet->text = $row['text'];
-          // $loadedTweet->creationDate = $row['creationDate'];
-          // return $loadedTweet;
       }
       return null;
     }
