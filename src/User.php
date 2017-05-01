@@ -30,6 +30,24 @@ class User
         return null;
     }
 
+    static public function loadAllUsers(PDO $connection)
+    {
+        $result = $connection->query("SELECT * FROM Users ORDER BY username ASC");
+        $ret = []; // pusta tablica w której przechowamy wyniki zapytania
+        if ($result == true && $result->rowCount() > 0){
+            echo "BLE BLE";
+            foreach ($result as $row) {
+                $loadedUser = new User();
+                $loadedUser->id = $row['id'];
+                $loadedUser->username = $row['username'];
+                $ret[] = $loadedUser;
+            }echo "dziala";
+            return $ret;
+        }
+        echo "dziala";
+        return null;
+    }
+
     static public function showUserByEmail(PDO $connection, $email)
     {
         $stmt = $connection->prepare('SELECT * FROM Users WHERE email=:email');
