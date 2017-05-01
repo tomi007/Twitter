@@ -10,32 +10,17 @@ if ($_SESSION != true) {
       $tweet = new Tweet();
       $tweet->setUserId($_SESSION['userId']); // przypisujemy ID zalogowanego użytkownika
       $tweet->setText($textTweet);
-
-      echo $tweet->getUserId();
-      echo "<br>";
-      echo $tweet->getText();
-
       $save = $tweet->save($connection);
-
-      var_dump($save);
       if ($save) {
           // jeżeli zapisywanie tweeta powiodło się
           $_SESSION['createTweet'] = "<b>Tweet został dodany!</b>"; // zapisujemy komunikat
+          unset($_SESSION['createTweet']);
       }else{
           $_SESSION['createTweet'] = "<b>Błąd!</b>"; // zapisujemy komunikat
+          unset($_SESSION['createTweet']);
       }
   }
 }
-
-// $user = new User();
-// $user->setEmail('krzystof@kris.pl');
-// $user->setUsername('kris');
-// $user->setHashPassword('kris');
-//
-// $result = $user->save($connection);
-// var_dump($result);
-// echo 'Mamy usera';
-
 ?>
 
 
@@ -67,7 +52,7 @@ if ($_SESSION != true) {
               echo "
                 <div class='row'>
                     <div class='col-md-2'>
-                      <img src='http://localhost/coderslab/Twitter/images/default-avatar.jpg' alt='avatar' width='70px' class='img-rounded'>
+                      <img src='http://localhost/coderslab/Twitter/images/default-avatar.jpg' alt='avatar' width='50px' class='img-rounded'>
                     </div>
                     <div class='col-md-10'>
                     <a href='showUser.php?id=" . $loadTweet->getUserId() . "'>@nazwausera</a> <i>" . $loadTweet->getCreationDate() . "</i>
@@ -80,35 +65,24 @@ if ($_SESSION != true) {
                 <h4>Komentarze do tego wpisu</h4>
               ";
 
-
           }else{
+              $allTweets = Tweet::loadAllTweets($connection);
 
-              // ROZWIĄZANIE TYMCZASOWE !!!
-              // jeżeli jesteśmy na głównej stronie generujemy wszystkie Tweety
-              $count = Tweet::loadAllTweets($connection); // liczy ile jest wynikow
-
-              for ($i=1; $i < count($count); $i++) {
-                $loadTweet = '';
-                $loadTweet = Tweet::loadTweetById($connection, $i);
-
-                // jeżeli ID istnieje w bazie to wyswietlamy zawartosc
-                if ($loadTweet) {
-                  echo "
-                    <div class='row'>
-                    <a href='index.php?show=" . $i . "'>
-                        <div class='col-md-2'>
-                          <img src='http://localhost/coderslab/Twitter/images/default-avatar.jpg' alt='avatar' width='50px' class='img-rounded'>
-                        </div>
-                        <div class='col-md-10'>
-                        <a href='showUser.php?id=" . $loadTweet->getUserId() . "'>@nazwausera</a> <i>" . $loadTweet->getCreationDate() . "</i>
-                        <br>
-                        <p>" . $loadTweet->getText() . "</p>
-                        </div>
-                    </a>
-                    </div><br>
-                  ";
-                }
-
+              foreach ($allTweets as $key => $value) {
+                echo "
+                  <div class='row'>
+                  <a href='index.php?show=" . $value->getId() . "'>
+                      <div class='col-md-2'>
+                        <img src='http://localhost/coderslab/Twitter/images/default-avatar.jpg' alt='avatar' width='40px' class='img-rounded'>
+                      </div>
+                      <div class='col-md-10'>
+                      <a href='showUser.php?id=" . $value->getUserId() . "'>@nazwausera</a> <i>" . $value->getCreationDate() . "</i>
+                      <br>
+                      <p>" . $value->getText() . "</p>
+                      </div>
+                  </a>
+                  </div><br>
+                ";
               }
           }
       ?>

@@ -27,7 +27,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index.php"><i class="fa fa-home"></i> Główna</a></li>
+            <li><a href="index.php"><i class="fa fa-home"></i> Główna</a></li>
             <li><a href="#about"><i class="fa fa-envelope"></i> Wiadomości</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
