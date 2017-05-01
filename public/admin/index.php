@@ -26,8 +26,19 @@ if ($_SESSION != true) {
 
 <div class="container">
   <div class="row">
-    <div class="col-md-3"><h2>USER_ID: <?php echo $_SESSION['userId'] ?></h2></div>
+    <div class="col-md-3">
+      <img src='http://localhost/coderslab/Twitter/images/default-avatar.jpg' alt='avatar' width='100px' class='img-rounded'>
+      <?php
+
+        $username = $_SESSION['username'];
+        echo "Witaj, <a href='#'>$username</a><br>";
+        echo "<a href='#'>Ustawienia</a><br>";
+        echo "<a href='#'>Wiadomości</a><br>";
+        echo "<a href='#'>Wyloguj się</a><br>";
+      ?>
+    </div>
     <div class="col-md-6">
+
       <?php
           if (isset($_GET['show'])) {
               // ładujemy tweeta po ID które podaliśmy w linku (GET)
@@ -35,13 +46,18 @@ if ($_SESSION != true) {
               // echo "<pre>";
               // print_r($loadTweet);
               // echo "</pre>";
+
+              // wyciągamy dane o userze (nazwe uzytkownika)
+              $usernameTweet = User::loadUserById($connection, $loadTweet->getUserId());
+              $usernameTweet = $usernameTweet->getUsername();
+
               echo "
                 <div class='row'>
                     <div class='col-md-2'>
                       <img src='http://localhost/coderslab/Twitter/images/default-avatar.jpg' alt='avatar' width='50px' class='img-rounded'>
                     </div>
                     <div class='col-md-10'>
-                    <a href='showUser.php?id=" . $loadTweet->getUserId() . "'>@nazwausera</a> <i>" . $loadTweet->getCreationDate() . "</i>
+                    <a href='showUser.php?id=" . $loadTweet->getUserId() . "'>@$usernameTweet</a> <i>" . $loadTweet->getCreationDate() . "</i>
                     <br>
                     <p>" . $loadTweet->getText() . "</p>
                     </div>
@@ -53,12 +69,12 @@ if ($_SESSION != true) {
 
               if (isset($_POST['comment']) && $_POST['comment'] != null) {
                   $addComment = new Comment();
-                  $addComment->setUserId(1);
+                  $addComment->setUserId($_SESSION['userId']);
                   $addComment->setTweetId($_GET['show']);
                   $addComment->setComment($_POST['comment']);
                   $addComment->save($connection);
-
                   echo "<b>Komentarz dodany</b>";
+
                   $_POST['comment'] = null;
               }
               // wyswietlamy formularz do komentowania
@@ -76,14 +92,26 @@ if ($_SESSION != true) {
               // jeżeli istnieją komentarze w bazie
               if ($comment) {
                   // wylistowanie wszystkich komentarzy
+
                   foreach ($comment as $key => $value) {
+                      // wyciągamy dane o userze (nazwe uzytkownika)
+                      $usernameComment = User::loadUserById($connection, $value->getUserId());
+                      $usernameComment = $usernameComment->getUsername();
+
+                      $show = $_GET['show'];
+                      $delete = $value->getId();
                       echo "
                         <div class='row'>
                             <div class='col-md-2'>
                               <img src='http://localhost/coderslab/Twitter/images/default-avatar.jpg' alt='avatar' width='50px' class='img-rounded'>
                             </div>
                             <div class='col-md-10'>
-                            <a href='showUser.php?id=" . $value->getUserId() . "'>@nazwausera</a> <i>" . $value->getCreationDate() . "</i>
+                            <a href='showUser.php?id=" . $value->getUserId() . "'>@$usernameComment</a> <i>" . $value->getCreationDate() . "</i>";
+                            if ($value->getUserId() == $_SESSION['userId']) {
+                              echo "<a href='index.php?show=$show&delete=$delete'> Usuń komentarz</a>";
+                            }
+
+                            echo "
                             <br>
                             <p>" . $value->getComment() . "</p>
                             </div>
@@ -113,9 +141,11 @@ if ($_SESSION != true) {
 
               // ładujemy metodę statyczną pobierającą wszystkie Wpisy
               $allTweets = Tweet::loadAllTweets($connection);
-
               // wypisujemy wszystkie wpisy
               foreach ($allTweets as $key => $value) {
+                $usernameTweets = User::loadUserById($connection, $value->getUserId());
+                $usernameTweets = $usernameTweets->getUsername();
+
                 echo "
                   <div class='row'>
                   <a href='index.php?show=" . $value->getId() . "'>
@@ -123,7 +153,7 @@ if ($_SESSION != true) {
                         <img src='http://localhost/coderslab/Twitter/images/default-avatar.jpg' alt='avatar' width='40px' class='img-rounded'>
                       </div>
                       <div class='col-md-10'>
-                      <a href='showUser.php?id=" . $value->getUserId() . "'>@nazwausera</a> <i>" . $value->getCreationDate() . "</i>
+                      <a href='showUser.php?id=" . $value->getUserId() . "'>@$usernameTweets</a> <i>" . $value->getCreationDate() . "</i>
                       <br>
                       <p>" . $value->getText() . "</p>
                       </div>

@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($user->getHashPassword() == $password) {
             $_SESSION['logged'] = true;
             $_SESSION['userId'] = $user->getId();
+            $_SESSION['username'] = $user->getUsername();
             echo "ZALOGOWANY";
             header('Location: index.php');
         } else {

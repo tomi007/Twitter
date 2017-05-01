@@ -142,5 +142,4 @@ class Tweet
         $this->creationDate = $creationDate;
         return $this;
     }
-
 }
