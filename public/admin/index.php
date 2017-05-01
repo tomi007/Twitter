@@ -52,9 +52,14 @@ if ($_SESSION != true) {
               ";
 
               if (isset($_POST['comment']) && $_POST['comment'] != null) {
-                echo "<b>Komentarz dodany</b>";
-                $_POST['comment'] = null;
-                var_dump($_POST['comment']);
+                  $addComment = new Comment();
+                  $addComment->setUserId(1);
+                  $addComment->setTweetId($_GET['show']);
+                  $addComment->setComment($_POST['comment']);
+                  $addComment->save($connection);
+
+                  echo "<b>Komentarz dodany</b>";
+                  $_POST['comment'] = null;
               }
               // wyswietlamy formularz do komentowania
               echo "<form action='index.php?show=".$_GET['show']."' class='' method='post'>";

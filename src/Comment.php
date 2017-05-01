@@ -18,7 +18,7 @@ class Comment
 
     static public function loadAllCommentByTweetId(PDO $connection, $tweetId)
     {
-      $stmt = $connection->prepare('SELECT * FROM Comments WHERE tweetId=:tweetId');
+      $stmt = $connection->prepare('SELECT * FROM Comments WHERE tweetId=:tweetId ORDER BY creationDate DESC');
       $result = $stmt->execute(['tweetId'=> $tweetId]);
 
       $ret = []; // pusta tablica w której przechowamy wyniki zapytania
@@ -38,6 +38,30 @@ class Comment
         return $ret;
       }
       return null;
+    }
+
+    public function save(PDO $pdo)
+    {
+        if ($this->id == -1) {
+            // przygotowanie zapytania
+            $sql = "INSERT INTO Comments(userId, tweetId, comment) VALUES (:userId, :tweetId, :comment)";
+
+            $prepare = $pdo->prepare($sql);
+            // Wysłanie zapytania do bazy z kluczami i wartościami do podmienienia
+            $result = $prepare->execute(
+                [
+                    'userId'  => $this->userId,
+                    'tweetId' => $this->tweetId,
+                    'comment' => $this->comment
+                ]
+            );
+
+            // Pobranie ostatniego ID dodanego rekordu
+            $this->id = $pdo->lastInsertId();
+            return (bool)$result;
+        } else {
+
+        }
     }
 
     public function getId()
