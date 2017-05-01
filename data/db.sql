@@ -27,6 +27,18 @@ CREATE TABLE IF NOT EXISTS `Users` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+/* - - - - - -- - - - - - - - -- - - - - - - - - - -- - -*/
+CREATE TABLE IF NOT EXISTS `Comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) NOT NULL,
+  `tweetId` int(11) NOT NULL,
+  `comment` varchar(100) NOT NULL,
+  `creationDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(userId) REFERENCES Users(id),
+  FOREIGN KEY(TweetId) REFERENCES Tweets(id)
+)
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
