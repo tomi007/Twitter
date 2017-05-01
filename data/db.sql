@@ -39,6 +39,19 @@ CREATE TABLE IF NOT EXISTS `Comments` (
   FOREIGN KEY(TweetId) REFERENCES Tweets(id)
 )
 
+/* - - - - - -- - - - - - - - -- - - - - - - - - - -- - -*/
+CREATE TABLE IF NOT EXISTS `Messages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sender` int(11) NOT NULL,
+  `recipient` int(11) NOT NULL,
+  `message` varchar(100) NOT NULL,
+  `read` boolean NOT NULL,
+  `creationDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(sender) REFERENCES Users(id),
+  FOREIGN KEY(recipient) REFERENCES Users(id)
+)
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

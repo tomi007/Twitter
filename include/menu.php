@@ -28,7 +28,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="index.php"><i class="fa fa-home"></i> Główna</a></li>
-            <li><a href="#about"><i class="fa fa-envelope"></i> Wiadomości</a></li>
+            <li><a href="message.php"><i class="fa fa-envelope"></i> Wiadomości</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="logout.php">Wyloguj się</a></li>

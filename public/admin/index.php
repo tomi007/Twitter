@@ -23,13 +23,11 @@ if ($_SESSION != true) {
 }
 ?>
 
-
 <div class="container">
   <div class="row">
     <div class="col-md-3">
       <img src='http://localhost/coderslab/Twitter/images/default-avatar.jpg' alt='avatar' width='100px' class='img-rounded'>
       <?php
-
         $username = $_SESSION['username'];
         echo "Witaj, <a href='#'>$username</a><br>";
         echo "<a href='#'>Ustawienia</a><br>";
@@ -122,7 +120,6 @@ if ($_SESSION != true) {
               }else{
                   echo "Brak komentarzy.";
               }
-
 
           }else{
                 echo ' <form class="" method="post">';
