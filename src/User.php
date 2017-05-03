@@ -67,6 +67,24 @@ class User
         return null;
     }
 
+    static public function showUserByUsername(PDO $connection, $username)
+    {
+        $stmt = $connection->prepare('SELECT * FROM Users WHERE username=:username');
+        $result = $stmt->execute(['username'=> $username]);
+
+        if ($result === true && $stmt->rowCount() > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $loadedUser = new User();
+            $loadedUser->id = $row['id'];
+            $loadedUser->username = $row['username'];
+            $loadedUser->hashPassword = $row['hash_password'];
+            $loadedUser->email = $row['email'];
+
+            return $loadedUser;
+        }
+
+        return null;
+    }
 
 
     public function getId()

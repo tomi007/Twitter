@@ -135,7 +135,6 @@ if ($_SESSION != true) {
                 <label></label>
                 </form>
                 ';
-
               // ładujemy metodę statyczną pobierającą wszystkie Wpisy
               $allTweets = Tweet::loadAllTweets($connection);
               // wypisujemy wszystkie wpisy
@@ -145,6 +144,8 @@ if ($_SESSION != true) {
 
                 echo "
                   <div class='row'>
+                  <div class='panel panel-default'>
+                    <div class='panel-body'>
                   <a href='index.php?show=" . $value->getId() . "'>
                       <div class='col-md-2'>
                         <img src='http://localhost/coderslab/Twitter/images/default-avatar.jpg' alt='avatar' width='40px' class='img-rounded'>
@@ -154,8 +155,10 @@ if ($_SESSION != true) {
                       <br>
                       <p>" . $value->getText() . "</p>
                       </div>
+                      </div>
+                    </div>
                   </a>
-                  </div><br>
+                  </div>
                 ";
               }
           }

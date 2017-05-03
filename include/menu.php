@@ -28,7 +28,18 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="index.php"><i class="fa fa-home"></i> Główna</a></li>
-            <li><a href="message.php"><i class="fa fa-envelope"></i> Wiadomości</a></li>
+            <li><a href="message.php?inbox"><i class="fa fa-envelope"></i>';
+            $messageUnreadTop = Message::howMuchUnreadMessage($connection, $_SESSION['userId']);
+            $messageUnreadTop = count($messageUnreadTop);
+
+            if ($messageUnreadTop > 0) {
+              echo "<b> Wiadomości ($messageUnreadTop)</b>";
+            }else{
+              echo " Wiadomości";
+            }
+            
+            echo '
+            </a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="logout.php">Wyloguj się</a></li>
