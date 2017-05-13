@@ -54,7 +54,7 @@ if ($_SESSION != true) {
               }
               ////////////////// KONIEC WYSYLKI WIADOMOSCI //////////////////////////////
 
-              ////////////////////////////// WRITE ////////////////////////////////////
+              ////////////////////////////// NEW ////////////////////////////////////
               if (isset($_GET['new'])) {
                   echo "
                   <h2>Nowa wiadomość</h2>
@@ -82,7 +82,7 @@ if ($_SESSION != true) {
                   </form>
                   ";
               }
-              ////////////////////////////// KONIEC WRITE ////////////////////////////////////
+              ////////////////////////////// KONIEC NEW ////////////////////////////////////
 
               ////////////////////////////// READ ////////////////////////////////////
               if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['read'])) {
@@ -96,7 +96,6 @@ if ($_SESSION != true) {
                   if ($openMessage->getRecipient() == $_SESSION['userId']) {
                     // jezeli uzytkownik wyswietlil wiadomosc
                     $openMessage->setRead(1);
-                    echo $openMessage->getRead();
                     // zapisujemy informacje w bazie
                     $resultSave = $openMessage->saveToDB($connection);
 
@@ -124,8 +123,12 @@ if ($_SESSION != true) {
                     echo "
                     <hr>
                     <form action='message.php' class='' method='post'>
-                    <textarea class='form-control' rows='3'></textarea>
-                    <button class='btn btn-lg btn-primary btn-block' type='submit' placeholder='Szybka odpowiedź'>Odpowiedz</button>
+
+                    <select name='recipient' class='form-control'>
+                      <option>" . $userNameSender->getUsername() . "</option>
+                    </select>
+                    <textarea name='message' class='form-control' rows='3'></textarea>
+                    <button class='btn btn-lg btn-primary btn-block' type='submit'>Wyślij</button>
                     </form>
                     </table>
                     </div>

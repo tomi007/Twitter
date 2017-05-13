@@ -115,8 +115,10 @@ class Message
                     'sender'     => $this->sender,
                     'recipient'  => $this->recipient,
                     'message'    => $this->message,
+
                 ]
             );
+
             // Pobranie ostatniego ID dodanego rekordu
             $this->id = $connection->lastInsertId();
             return $result;

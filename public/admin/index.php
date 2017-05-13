@@ -25,7 +25,9 @@ if ($_SESSION != true) {
 
 <div class="container">
   <div class="row">
+
     <div class="col-md-3">
+
       <img src='http://localhost/coderslab/Twitter/images/default-avatar.jpg' alt='avatar' width='100px' class='img-rounded'>
       <?php
         $username = $_SESSION['username'];
@@ -34,7 +36,9 @@ if ($_SESSION != true) {
         echo "<a href='#'>Wiadomości</a><br>";
         echo "<a href='#'>Wyloguj się</a><br>";
       ?>
+
     </div>
+
     <div class="col-md-6">
 
       <?php
